@@ -9,11 +9,7 @@ const server = createServer(app);
 dotenv.config({ path: '../config/.env' });
 
 
-const io = new Server(server, {
-    cors: {
-      origin: "*",
-    }
-})
+const io = new Server(server)
 
 var userList: any [] = [];
 var groupList: any [] = [];
