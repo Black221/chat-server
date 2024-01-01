@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 
 const app: Application = express();
 const server = createServer(app);
+dotenv.config({ path: '../config/.env' });
 
 
 const io = new Server(server, {
@@ -16,6 +17,7 @@ const io = new Server(server, {
 
 var userList: any [] = [];
 var groupList: any [] = [];
+let PORT: number = parseInt(process.env.PORT as string, 10);
 
 
 io.on('connection', function(socket){
@@ -102,6 +104,6 @@ io.on('connection', function(socket){
 });
 
 
-server.listen(4444, () => {
-    console.log(`Listening on port ${4444}`);
+server.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
 });
