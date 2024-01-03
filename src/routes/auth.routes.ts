@@ -1,14 +1,13 @@
 
+import { Login, Register, RegisterExpert } from '@controllers/auth.controllers';
 import { Router } from 'express';
-import { createUser, getUser, getUserById, updateUser, deleteUser } from '../controllers';
+
+
 const router = Router();
 
-router.post('/', createUser);
-router.get('/', getUser);
-router.get('/:id', getUserById);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
-
+router.post('/login', Login);
+router.post('/register', Register);
+router.post('/register/expert', RegisterExpert);
 
 
 export default router;

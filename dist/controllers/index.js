@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateChat = exports.getChatById = exports.getChat = exports.deleteChat = exports.createChat = exports.updateUser = exports.getUserById = exports.getUser = exports.deleteUser = exports.createUser = void 0;
+var auth_controllers_1 = require("./auth.controllers");
+Object.defineProperty(exports, "createUser", { enumerable: true, get: function () { return auth_controllers_1.createUser; } });
+Object.defineProperty(exports, "deleteUser", { enumerable: true, get: function () { return auth_controllers_1.deleteUser; } });
+Object.defineProperty(exports, "getUser", { enumerable: true, get: function () { return auth_controllers_1.getUser; } });
+Object.defineProperty(exports, "getUserById", { enumerable: true, get: function () { return auth_controllers_1.getUserById; } });
+Object.defineProperty(exports, "updateUser", { enumerable: true, get: function () { return auth_controllers_1.updateUser; } });
+var chat_controllers_1 = require("./chat.controllers");
+Object.defineProperty(exports, "createChat", { enumerable: true, get: function () { return chat_controllers_1.createChat; } });
+Object.defineProperty(exports, "deleteChat", { enumerable: true, get: function () { return chat_controllers_1.deleteChat; } });
+Object.defineProperty(exports, "getChat", { enumerable: true, get: function () { return chat_controllers_1.getChat; } });
+Object.defineProperty(exports, "getChatById", { enumerable: true, get: function () { return chat_controllers_1.getChatById; } });
+Object.defineProperty(exports, "updateChat", { enumerable: true, get: function () { return chat_controllers_1.updateChat; } });

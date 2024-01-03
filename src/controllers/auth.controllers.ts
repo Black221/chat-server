@@ -1,65 +1,55 @@
 import { Request, Response } from 'express';
-import { UserModel } from '../models';
+import { User, UserModel } from '@models/user.model';
+import AuthService from '@/services/auth.service';
 
 
-export const createUser = async (req: Request, res: Response) => {
-
-    const { firstName, lastName, password, phoneNumber} = req.body;
+export const Register = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user = await UserModel.create({ firstName, lastName, password, phoneNumber});
-        return res.status(201).json({ user: user._id });
+        const { password, username } = req.body;
+        const user = new UserModel({ password, username });
+        await user.save();
+        res.status(201).json({ message: 'User created successfully' });
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
-export const getUser = async (req: Request, res: Response) => {
+export const RegisterExpert = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user = await UserModel.find();
-        return res.status(200).json({ user });
+        const { password, username } = req.body;
+        const user = new UserModel({ password, username, role: 'expert' });
+        await user.save();
+        res.status(201).json({ message: 'User created successfully' });
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
-export const getUserById = async (req: Request, res: Response) => {
-    const { id } = req.params;
+export const Login = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user = await UserModel.findById(id);
-        if (user) {
-            return res.status(200).json({ user });
+        const { username, password } = req.body;
+        
+        const data: {
+            user: User,
+            token: string
+        } | null = await AuthService.login(username, password);
+
+        if (!data) {
+            res.status(401).json({ message: 'Invalid credentials' });
+            return;
         }
-        return res.status(404).json({ message: "User not found!" });
+        res.status(200).json({ data });
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
-export const updateUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { firstName, lastName, password, phoneNumber} = req.body;
-
+export const Logout = async (req: Request, res: Response): Promise<void> => {
     try {
-        const user = await UserModel.findByIdAndUpdate(id, { firstName, lastName, password, phoneNumber});
-        if (user) {
-            const updated = { ...user, firstName, lastName, password, phoneNumber};
-            return res.status(200).json({ user: updated });
-        }
-        return res.status(404).json({ message: "User not found!" });
+        const { token } = req.body;
+        // await UserModel.logout(token);
+        res.status(200).json({ message: 'User logged out successfully' });
     } catch (error: any) {
-        return res.status(500).json({ error: error.message });
-    }
-}
-
-export const deleteUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    try {
-        const deleted = await UserModel.findByIdAndDelete(id);
-        if (deleted) {
-            return res.status(200).json({ user: deleted });
-        }
-        throw new Error("User not found!");
-    } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
